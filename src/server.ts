@@ -9,32 +9,39 @@ import {
 } from "fastify-type-provider-zod";
 import { sumRoute } from "./sumRoute";
 
-const app = fastify().withTypeProvider<ZodTypeProvider>();
+export function createServer() {
+    const app = fastify().withTypeProvider<ZodTypeProvider>();
 
-app.setValidatorCompiler(validatorCompiler);
-app.setSerializerCompiler(serializerCompiler);
+    app.setValidatorCompiler(validatorCompiler);
+    app.setSerializerCompiler(serializerCompiler);
 
-app.register(fastifySwagger, {
-    openapi: {
-        info: {
-            title: 'API de Exemplo',
-            description: 'Documentação da API de exemplo utilizando Fastify',
-            version: '1.0.0',
+    app.register(fastifySwagger, {
+        openapi: {
+            info: {
+                title: 'API de Exemplo',
+                description: 'Documentação da API de exemplo utilizando Fastify',
+                version: '1.0.0',
+            },
+            servers: [
+                { url: 'http://localhost:3333', description: "local server" }
+            ],
+            tags: [{ name: 'sum', description: 'Sum endpoint' }]
         },
-        servers: [
-            { url: 'http://localhost:3333', description: "local server"}
-        ],
-        tags: [{ name: 'sum', description: 'Sum endpoint'}]
-    },
-    transform: jsonSchemaTransform
-});
+        transform: jsonSchemaTransform
+    });
 
-app.register(fastifySwaggerUi, {
-    routePrefix: '/docs'
-});
+    app.register(fastifySwaggerUi, {
+        routePrefix: '/docs'
+    });
 
-app.register(sumRoute);
+    app.register(sumRoute);
 
-app
-  .listen({ port: 3333 })
-  .then(() => console.log('Server running on http://localhost:3333'));
+    return app;
+}
+
+export async function startServer() {
+    const app = createServer();
+    const address = await app.listen({ port: 3333 });
+    console.log(`Server running on ${address}`);
+    return app;
+}
