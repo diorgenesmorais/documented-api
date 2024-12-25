@@ -30,8 +30,10 @@ documented-api/
 ## Executando o Servidor
 
 Para iniciar o servidor em modo de desenvolvimento, execute:
+
 ```sh
 pnpm run dev
+```
 
 O servidor estará rodando em http://localhost:3333.
 
@@ -62,3 +64,9 @@ Tecnologias Utilizadas
 Licença
 
 Este projeto está licenciado sob a licença ISC.
+
+## Executar os testes (com coverage)
+
+```sh
+pnpm run test
+```
