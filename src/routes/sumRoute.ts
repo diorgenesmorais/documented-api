@@ -7,7 +7,7 @@ const sumSchema = z.object({
 });
 
 export const sumRoute: FastifyPluginAsyncZod = async app => {
-    app.get('/sum', {
+    app.get('/', {
         schema: {
             querystring: sumSchema,
             tags: ['sum'],

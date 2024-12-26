@@ -15,18 +15,18 @@ describe('API Endpoints', () => {
     });
 
     test('should return the sum of two numbers', async () => {
-        const response = await request(app.server).get('/sum').query({ a: 5, b: 3 });
+        const response = await request(app.server).get('/v1/sum').query({ a: 5, b: 3 });
         expect(response.status).toBe(200);
         expect(response.body.result).toBe(8);
     });
 
     test('should return 400 for invalid query parameters', async () => {
-        const response = await request(app.server).get('/sum').query({ a: 'invalid', b: 3 });
+        const response = await request(app.server).get('/v1/sum').query({ a: 'invalid', b: 3 });
         expect(response.status).toBe(400);
     });
 
     test('should serve Swagger UI at /docs', async () => {
-        const response = await request(app.server).get('/docs');
+        const response = await request(app.server).get('/v1/docs');
         expect(response.status).toBe(200);
         expect(response.text).toContain('Swagger UI');
     });

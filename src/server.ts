@@ -7,7 +7,8 @@ import {
     validatorCompiler,
     ZodTypeProvider
 } from "fastify-type-provider-zod";
-import { sumRoute } from "./sumRoute";
+import cors from "@fastify/cors";
+import { registerRoutes } from "./routes";
 
 export function createServer() {
     const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -30,11 +31,17 @@ export function createServer() {
         transform: jsonSchemaTransform
     });
 
-    app.register(fastifySwaggerUi, {
-        routePrefix: '/docs'
+    app.register(cors, {
+        origin: '*',
+        methods: ['GET', 'POST'],
+        allowedHeaders: ['Content-Type', 'Authorization']
     });
 
-    app.register(sumRoute);
+    app.register(fastifySwaggerUi, {
+        routePrefix: '/v1/docs'
+    });
+
+    app.register(registerRoutes, { prefix: '/v1' });
 
     return app;
 }
