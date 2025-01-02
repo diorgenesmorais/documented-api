@@ -9,8 +9,7 @@ import {
 } from "fastify-type-provider-zod";
 import cors from "@fastify/cors";
 import { registerRoutes } from "./routes";
-
-const PORT = Number(process.env.PORT) || 3333;
+import { env } from "./env";
 
 export function createServer() {
     const app = fastify().withTypeProvider<ZodTypeProvider>();
@@ -50,7 +49,7 @@ export function createServer() {
 
 export async function startServer() {
     const app = createServer();
-    const address = await app.listen({ port: PORT });
+    const address = await app.listen({ port: env.PORT });
     console.log(`Server running on ${address}`);
     return app;
 }
