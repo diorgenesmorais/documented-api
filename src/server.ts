@@ -5,7 +5,7 @@ import {
     jsonSchemaTransform,
     serializerCompiler,
     validatorCompiler,
-    ZodTypeProvider
+    type ZodTypeProvider
 } from "fastify-type-provider-zod";
 import cors from "@fastify/cors";
 import { registerRoutes } from "./routes";
